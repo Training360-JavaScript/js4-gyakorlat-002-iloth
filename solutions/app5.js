@@ -9,40 +9,48 @@ const getProductData = () => productData;
  * @param {[{name: string}]} products termék objektumok tömbje
  * @returns {[{name: string}]} a name alapján rendezett tömb
  */
+// eslint-disable-next-line arrow-body-style
 const sortProducts = (products = [{ name: '' }]) => {
-    // itt dolgozz
+  return products.sort((a, b) => Intl.Collator('en').compare(a.name, b.name));
 };
 
 /**
- * TODO: hozd létre a getProducts függvényt! 
- * 
+ * TODO: hozd létre a getProducts függvényt!
+ *
  * TODO: a getProducts függvény futtasson egy fetch kérést!
- * 
- * TODO: majd a fetch kérés után parse-old a JSON-adatokat! 
- * 
+ *
+ * TODO: majd a fetch kérés után parse-old a JSON-adatokat!
+ *
  * TODO: majd a parse-olt és rendezett adatokkal írd felül a productData változót!
- * Ezt a műveletet a sortProducts függvény végezze, 
+ * Ezt a műveletet a sortProducts függvény végezze,
  * amely megkapja a tömböt és a name tulajdonság szerint sorba rendezi!
- * 
+ *
  * TODO: hiba estén írd ki a konzolra: `Error: <url> is not found!`
  * (az <url> a kapott URL-cím legyen)!
- * 
+ *
  * PÉLDÁK: https://developer.mozilla.org/en-US/docs/Web/API/fetch#examples
- * 
+ *
  * LEÍRÁS: A függvény a kapott paraméterek alapján indít egy fetch kérést.
- * Miután a válasz megérkezett, az első függvényben, amelyet az első .then-ben 
+ * Miután a válasz megérkezett, az első függvényben, amelyet az első .then-ben
  * átadunk, parse-oljuk a JSON-adatokat.
- * Majd a második .then-ben a parse-olt adatokkal felülírjuk a productData 
+ * Majd a második .then-ben a parse-olt adatokkal felülírjuk a productData
  * változót.
- * Hiba esetén a .catch metódusban átadott függvény fut le, amely kiírja a 
+ * Hiba esetén a .catch metódusban átadott függvény fut le, amely kiírja a
  * megfelelő hibaüzenetet a console.log segítségével.
  * @param {string} url a távoli erőforrás címe, ahonnan lekérjük az adatokat
  */
+
+const getProducts = (url) => {
+  fetch(url)
+    .then((resp) => resp.json())
+    .then((data) => { productData = sortProducts(data); })
+    .catch(() => { console.log('Error: <url> is not found!'); });
+};
 
 /**
  * TODO: exportáld ki helyesen a getProducts függvényt!
  */
 export {
-    
-    getProductData,
-}
+  getProductData,
+  getProducts,
+};
